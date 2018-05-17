@@ -1,8 +1,10 @@
+import random
+
 from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
-from video.models import User
+from video.models import User, Media
 
 from video.models import User
 import datetime
@@ -29,7 +31,29 @@ def write_data_to_database(username, password, name, email, phone):
 
 
 def index(request):
-    return render(request, "index2.html")
+    recent = Media.objects.all().order_by("?")[:3]
+    art_1 = Media.objects.filter(tag="Art").order_by("url")[:4]
+    art_2 = Media.objects.filter(tag="Art").order_by("pic_url")[:4]
+    art_3 = Media.objects.filter(tag="Art").order_by("title")[:4]
+    art_4 = Media.objects.filter(tag="Art").order_by("view_num")[:4]
+    recommend_1 = Media.objects.order_by("?")[:4]
+    recommend_2 = Media.objects.order_by("?")[:4]
+    design_1 = Media.objects.filter(tag="Design").order_by("?")[:4]
+    design_2 = Media.objects.filter(tag="Design").order_by("?")[:4]
+    recommend = [recommend_1, recommend_2]
+    design = [design_1, design_2]
+    art = [art_1, art_2, art_3, art_4]
+    result = {
+        "recents": recent,
+        "arts": art,
+        "recommends": recommend,
+        "designs":design
+    }
+
+    for media in recent:
+        media.url = media.url + "?quality=50&w=800"
+        print(media.url)
+    return render(request, "index.html", result)
 
 
 def search(request):
