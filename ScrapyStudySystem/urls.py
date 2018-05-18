@@ -23,7 +23,11 @@ import video.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path(r'index', video.views.index),
-    path(r'',video.views.index),
-    path('search',video.views.search),
-    path("sign_up",video.views.sign_up)
+    path(r'', video.views.index),
+    path('search', video.views.search),
+    path("sign_up", video.views.sign_up),
+    path("categories", video.views.categories),
+    path("single", video.views.single, ),
+    path("like", video.views.like_media ),
+    path("register", video.views.register ),
 ]
